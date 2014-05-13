@@ -1,6 +1,6 @@
 simDHT:
 -------
-A DHT crawler, is not quite based on Kademlia, written in Python, the code is very very simple.
+A DHT crawler, is not quite based on Kademlia, written by Python, the code is very very simple.
 
 dependencies:
 ------------
