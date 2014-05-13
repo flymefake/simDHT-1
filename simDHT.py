@@ -4,7 +4,6 @@ from hashlib import sha1
 from random import randint
 from struct import unpack, pack
 from socket import inet_aton, inet_ntoa
-from bisect import bisect_left, insort_left
 from threading import Timer, Thread, RLock
 from time import sleep
 
