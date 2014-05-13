@@ -17,7 +17,6 @@ BOOTSTRAP_NODES = [
 ] 
 TID_LENGTH = 4
 KRPC_TIMEOUT = 10
-K = 8
 
 def entropy(bytes):
     s = ""
