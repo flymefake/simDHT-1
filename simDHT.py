@@ -85,6 +85,8 @@ class KRPC(Thread):
         except:
             pass
 
+    def get_neighbor(self, target):
+        return target[:10]+random_id()[10:]
 
 class Client(KRPC):
     def __init__(self, table):
@@ -94,13 +96,14 @@ class Client(KRPC):
         timer(KRPC_TIMEOUT, self.timeout)
         KRPC.__init__(self)
 
-    def find_node(self, address):
+    def find_node(self, address, nid=None):
+        nid = self.get_neighbor(nid) if nid else self.table.nid
         tid = entropy(TID_LENGTH)
         msg = {
             "t": tid,
             "y": "q",
             "q": "find_node",
-            "a": {"id": self.table.nid, "target": random_id()}
+            "a": {"id": nid, "target": random_id()}
         }
         self.send_krpc(msg, address)
 
@@ -110,7 +113,6 @@ class Client(KRPC):
 
     def timeout(self):
         if not self.join_successed:
-            print "join failed, rejoin......"
             self.joinDHT()
         timer(KRPC_TIMEOUT, self.timeout)
 
@@ -132,7 +134,7 @@ class Client(KRPC):
                 continue
 
             for node in self.table.nodes:
-                self.find_node(( node.ip, node.port ))
+                self.find_node(( node.ip, node.port ), node.nid)
 
             self.lock.acquire()
             self.table.nodes = []
